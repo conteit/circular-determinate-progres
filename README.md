@@ -15,12 +15,12 @@ npm install --save circular-determinate-progress
 ```tsx
 import React, { Component } from 'react'
 
-import MyComponent from 'circular-determinate-progress'
+import CircularDeterminateProgress from 'circular-determinate-progress'
 import 'circular-determinate-progress/dist/index.css'
 
 class Example extends Component {
   render() {
-    return <MyComponent />
+    return <CircularDeterminateProgress />
   }
 }
 ```
