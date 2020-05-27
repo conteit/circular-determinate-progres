@@ -8,8 +8,7 @@ export interface Props {
   backgroundColor: string;
   strokeWidth: number;
   percentage: number;
-  rotating: boolean;
-  renderText: (percentage: number) => HTMLElement;
+  renderText?: (percentage: number) => HTMLElement;
 }
 
 const DEFAULT_SIZE = 170;
@@ -17,26 +16,29 @@ const DEFAULT_FOREGROUND_COLOR = "rgb(64, 159, 255)";
 const DEFAULT_BACKGROUND_COLOR = "rgb(232, 235, 237)";
 
 export const CircularDeterminateProgress = ({ 
-  width, height, percentage, foregroundColor, backgroundColor, rotating, strokeWidth
+  width, height, percentage, foregroundColor, backgroundColor, strokeWidth, renderText
 }: Props) => {
   return (
-    <svg
-        className={
-          rotating && percentage > 0 && percentage < 1 
-          ? styles.rotating 
-          : ""} 
-        height={sizeOrDefault(height)}
-        width={sizeOrDefault(width)} 
-        shape-rendering="geometricPrecision" 
-        viewBox={viewBox(width, height)}>
-          <BackgroundCircle 
-            strokeColor={backgroundColor || DEFAULT_BACKGROUND_COLOR}
-            strokeWidth={strokeWidth} />
-          <Circle 
-            strokeColor={foregroundColor || DEFAULT_FOREGROUND_COLOR} 
-            strokeWidth={strokeWidth}
-            percentage={percentage} />
-    </svg>
+    <div className={styles.spinner}>
+      <svg
+          className={
+            percentage > 0 && percentage < 1 
+            ? `${styles.spinnerCircle} ${styles.rotating}`
+            : styles.spinnerCircle} 
+          height={sizeOrDefault(height)}
+          width={sizeOrDefault(width)} 
+          shapeRendering="geometricPrecision" 
+          viewBox={viewBox(width, height)}>
+            <BackgroundCircle 
+              strokeColor={backgroundColor || DEFAULT_BACKGROUND_COLOR}
+              strokeWidth={strokeWidth} />
+            <Circle 
+              strokeColor={foregroundColor || DEFAULT_FOREGROUND_COLOR} 
+              strokeWidth={strokeWidth}
+              percentage={percentage} />
+      </svg>
+      { !!renderText && renderText(percentage) }
+    </div>
   );
 }
 
@@ -56,7 +58,7 @@ interface CircleProps {
 
 const Circle = ({strokeWidth, strokeColor, percentage}: CircleProps) => {
   return (
-    <circle r="80" cx="85" cy="85" fill="transparent" 
+    <circle r="80" cx="85" cy="85" fill="transparent" strokeLinecap="round"
       style={style(percentage, strokeWidth, strokeColor)}>
     </circle>
   )

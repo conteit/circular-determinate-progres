@@ -10,17 +10,20 @@ const App = () => {
     let inc = 0.01;
     function update() {
       if (value <= 0) {
-        inc = 0.01;
+        inc = 0.001;
       } else if (value >= 1) {
-        inc = -0.01;
+        inc = -0.001;
       }
       value += inc;
       setP({value});
-      setTimeout(update, 100)
+      setTimeout(update, 50)
     }
     update();
   }, []);
-  return <CircularDeterminateProgress percentage={p.value} strokeSize={10} rotating={true} />
+  return <CircularDeterminateProgress percentage={p.value} strokeSize={10} 
+      renderText={ p => 
+        <span className="spinner__label">{ (p * 100).toFixed(0) }<span>%</span></span>
+      } />
 }
 
 export default App
