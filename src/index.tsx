@@ -21,10 +21,11 @@ export const CircularDeterminateProgress = ({
   return (
     <div className={styles.spinner}>
       <svg
+          style={ {transformOrigin: "50% 50%"}}
           className={
             percentage > 0 && percentage < 1 
-            ? `${styles.spinnerCircle} ${styles.rotating}`
-            : styles.spinnerCircle} 
+            ? styles.rotating
+            : ""} 
           height={sizeOrDefault(height)}
           width={sizeOrDefault(width)} 
           shapeRendering="geometricPrecision" 
